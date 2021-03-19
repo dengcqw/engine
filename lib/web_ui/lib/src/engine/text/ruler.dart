@@ -361,7 +361,7 @@ class TextDimensions {
     _invalidateBoundsCache();
   }
 
-  /// Appends element and probe to hostElement that is setup for a specific
+  /// Appends element and probe to hostElement that is set up for a specific
   /// TextStyle.
   void appendToHost(html.HtmlElement hostElement) {
     hostElement.append(_element);
@@ -413,6 +413,11 @@ class TextHeightRuler {
 
   /// The height for this ruler's [textHeightStyle].
   late final double height = _dimensions.height;
+
+  /// Disposes of this ruler and detaches it from the DOM tree.
+  void dispose() {
+    _host.remove();
+  }
 
   html.HtmlElement _createHost() {
     final html.DivElement host = html.DivElement();
@@ -928,7 +933,7 @@ class ParagraphRuler {
     _singleLineHost.remove();
     _minIntrinsicHost.remove();
     _constrainedHost.remove();
-    _textHeightRuler._host.remove();
+    _textHeightRuler.dispose();
     assert(() {
       _debugIsDisposed = true;
       return true;
